@@ -1,0 +1,49 @@
+{% extends "auctions/layout.html"%}
+{%block body%}
+<div class="listing">
+   <h3>{{listing.title}}</h3>
+   {%if not listing.status%}
+   <h4>CLOSED</h4>
+   {%if high_user%}
+   <h5>YOU WON</h5>
+   {%endif%}
+   {%endif%}
+   <p>Price: ${{listing.starting_bid}}.00</p>
+   {% if myuser and listing.status and user.is_authenticated %}
+     <a href="{%url 'close' listing.id%}">Close this auction</a>
+   {%endif%}
+   <img src="{{listing.image}}"alt="{{listing.title}}">
+   <p>{{listing.description}}</p>
+   {%if user.is_authenticated%}
+     <form action="{%url 'list' listing.id%}" method="post">
+        {%csrf_token%}
+        <div class="form-group">
+            <input class="form-control" type="text" name="comment"placeholder="type your comments here...">
+        </div>
+      </form>
+      <form action="{%url 'list' listing.id%}" method="post">
+        {%csrf_token%}
+        <div class="form-group">
+          <input class="form-control" type="number" name="bid" placeholder="Place your bid here"min={{listing.starting_bid}}>
+        </div>
+     </form>
+      {%if listing in watchlist%}
+        <a href="{%url 'remove' listing.id%}">Remove from watchlist</a>
+      {%else%}
+        <a href="{%url 'add' listing.id%}">Add to watchlist</a>
+      {%endif%} 
+   {%endif%}
+   <h5>Highest Bid: ${{highest_bid.bid}}.00</h5>
+   <h5>Comments...</h5>
+   <ul>
+   {%for comment in comments %}
+   
+        {%if empty%}
+          <li>No comment</li>
+        {%else%}
+          <li>{{comment.comment}}</li>
+        {%endif%}
+     {%endfor%}
+    </ul>
+</div>
+{% endblock %}

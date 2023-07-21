@@ -1,0 +1,19 @@
+{%extends "auctions/layout.html"%}
+{%block body%}
+<h3>{{category}}</h3>
+<ul>
+{%for list in listing%}
+<a href="{% url 'list' list.id%}">
+    <li>
+       <div class="list">
+         <img src="{{list.image}}" alt="{{list.title}}">
+            <ul>
+               <li>{{list.title}}</li>
+               <li>Price: ${{list.starting_bid}}.00</li>
+         </ul>
+       </div>
+    </li>
+</a>
+{%endfor%}
+</ul>
+{%endblock%}

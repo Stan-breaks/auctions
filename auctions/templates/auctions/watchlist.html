@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html"%}
+{%block body%}
+<h2>Your watchlist</h2>
+<ul>
+  {%for list in watchlist%}
+    {%if empty%}
+        <li>nothing in watchlist</li>
+    {%endif%}
+    <li>
+       <div>{{list.title}}</div>
+       <a href="{%url 'remove' list.id%}">Remove from watchlist</a>
+    </li>
+    {%endfor%}
+</ul>
+{%endblock%}
